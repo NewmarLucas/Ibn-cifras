@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor: '#fff'
   },
   headerTitle: {
+    color: '#fff',
     fontSize: 36,
-    fontWeight: '600'
+    fontFamily: 'InterSemiBold'
   }
 })

@@ -8,11 +8,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 export default function App() {
   const [loaded] = useFonts({
-    'RobotoLight': require('./src/assets/fonts/Roboto-Light.ttf'),
-    'RobotoRegular': require('./src/assets/fonts/Roboto-Regular.ttf'),
-    'RobotoMedium': require('./src/assets/fonts/Roboto-Medium.ttf'),
-    'RobotoBold': require('./src/assets/fonts/Roboto-Bold.ttf'),
-    'RobotoBlack': require('./src/assets/fonts/Roboto-Black.ttf'),
+    'InterBold': require('./src/assets/fonts/Inter-Bold.ttf'),
+    'InterLight': require('./src/assets/fonts/Inter-Light.ttf'),
+    'InterMedium': require('./src/assets/fonts/Inter-Medium.ttf'),
+    'InterSemiBold': require('./src/assets/fonts/Inter-SemiBold.ttf'),
   })
 
   if (!loaded) {
