@@ -1,12 +1,26 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Header } from '../../components'
+import { StyleSheet, FlatList, View, Text } from 'react-native'
+import { Header, ListItem } from '../../components'
 
 const Welcome = () => {
+  const listItems = [
+    { subtitle: 'Murilo', label: 'Culto de Terça', value: 'tuesday' },
+    { subtitle: 'Murilo', label: 'Culto de Sábado', value: 'saturday' },
+    { subtitle: 'Murilo', label: 'Culto de Domingo', value: 'sunday' },
+    { subtitle: 'Murilo', label: 'Outros Cultos', value: 'others' },
+  ]
 
   return (
     <View style={styles.container}>
-      <Header showLogin text='IBN Cifras' />
+      <Header showLogin text='Cifras IBN' />
+
+      <View style={styles.listContainer}>
+        <FlatList
+          data={listItems}
+          renderItem={({ item }) => <ListItem title={item.label} subtitle={item.subtitle} />}
+          keyExtractor={item => item.value}
+        />
+      </View>
     </View>
   )
 }
@@ -17,6 +31,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: '#383838'
+  },
+  listContainer: {
+    marginHorizontal: 16,
+    width: '100%',
+    marginTop: 50
+  },
+  itemCard: {
+    padding: 20,
+  },
+  itemText: {
+    color: '#fff',
+    fontSize: 32,
   },
 })
 
