@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, FlatList, View, Text } from 'react-native'
+import { StyleSheet, FlatList, View } from 'react-native'
 import { Header, ListItem } from '../../components'
 
 const Welcome = () => {
@@ -17,7 +17,7 @@ const Welcome = () => {
       <View style={styles.listContainer}>
         <FlatList
           data={listItems}
-          renderItem={({ item }) => <ListItem title={item.label} subtitle={item.subtitle} />}
+          renderItem={({ item }) => <ListItem action={() => console.log('oi')} title={item.label} subtitle={item.subtitle} />}
           keyExtractor={item => item.value}
         />
       </View>
