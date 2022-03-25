@@ -1,10 +1,15 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import Constants from 'expo-constants'
 
-export const Header = ({text}) => {
+export const Header = ({ text, showLogin = false }) => {
   return (
     <View style={styles.container}>
+      {showLogin && (
+        <TouchableOpacity style={styles.loginButton}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+      )}
       <Text style={styles.headerTitle}>{text}</Text>
     </View>
   )
@@ -14,7 +19,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: Constants.statusBarHeight,
-    height: 100,
+    height: 115,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -22,6 +27,16 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: '#fff',
     fontSize: 36,
-    fontFamily: 'InterSemiBold'
-  }
+    fontFamily: 'InterSemiBold',
+  },
+  loginButton: {
+    position: 'absolute',
+    top: 30,
+    right: 30,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontFamily: 'InterMedium',
+  },
 })

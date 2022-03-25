@@ -6,7 +6,7 @@ const Welcome = () => {
 
   return (
     <View style={styles.container}>
-      <Header text='IBN Cifras' />
+      <Header showLogin text='IBN Cifras' />
     </View>
   )
 }
