@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, FlatList, View, Text } from 'react-native'
 import { Header, ListItem } from '../components'
-import Constants from 'expo-constants'
 
 const List = ({ route }) => {
   const pageTitle = route.params?.culto
@@ -31,7 +30,7 @@ const List = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Constants.statusBarHeight,
+    // marginTop: Constants.statusBarHeight,
     alignItems: 'center',
     backgroundColor: '#383838'
   },
