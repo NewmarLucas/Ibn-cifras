@@ -20,6 +20,15 @@ const List = ({ route, navigation }) => {
     { id: '4', music: 'Pedra na Mão', cantor: 'Discopraise' },
   ]
 
+  const options = [
+    { label: 'A', value: 'A' },
+    { label: 'B', value: 'B' },
+    { label: 'C', value: 'C' },
+    { label: 'D', value: 'D' },
+    { label: 'E', value: 'E' },
+    { label: 'F', value: 'F' },
+  ]
+
   const handleChange = (name, text) => {
     setForm(form => ({
       ...form,
@@ -30,7 +39,7 @@ const List = ({ route, navigation }) => {
   const inputs = [
     { placeholder: 'Nome da música', value: form.musicName, onChange: (text) => { handleChange('musicName', text) } },
     { placeholder: 'Cantor', value: form.cantor, onChange: (text) => { handleChange('cantor', text) } },
-    { placeholder: 'Tom', value: form.tom, onChange: (text) => { handleChange('tom', text) } },
+    { placeholder: 'Tom', type: 'select', options, value: form.tom, onChange: (text) => { handleChange('tom', text) } },
   ]
 
   return (

@@ -1,19 +1,29 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { TextInput } from '../components'
+import { TextInput } from './TextInput'
+import { FormPicker } from './FormPicker'
 
 export const Form = ({ inputs }) => {
   return (
     <View style={styles.formContainer}>
       {inputs &&
-        inputs.map((item) => (
-          <TextInput
-            key={item.placeholder}
-            value={item.value}
-            placeholder={item.placeholder}
-            onChangeText={item.onChange}
-          />
-        ))}
+        inputs.map((item) =>
+          item?.type === 'select' ? (
+            <FormPicker
+              key={item.value}
+              options={item.options}
+              setValue={item.onChange}
+              value={item.value}
+            />
+          ) : (
+            <TextInput
+              key={item.placeholder}
+              value={item.value}
+              placeholder={item.placeholder}
+              onChangeText={item.onChange}
+            />
+          )
+        )}
     </View>
   )
 }

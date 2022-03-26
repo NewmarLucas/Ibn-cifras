@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { Form } from '../components'
+import { Form } from './Form'
 
 export const Alert = ({ msg, onOk, onCancel, setOpen, form, buttonText }) => {
   return (
