@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, TextInput } from 'react-native'
-import { Header, RoundButton, Alert } from '../components'
+import { Header, RoundButton, Alert, TextInputFilled } from '../components'
 
 const Login = ({ navigation }) => {
   const [showAlert, setShowAlert] = useState(false)
@@ -49,20 +49,16 @@ const Login = ({ navigation }) => {
 
       <View style={styles.content}>
         <View style={styles.inputContainer}>
-          <TextInput
+          <TextInputFilled
             value={form.email}
-            style={styles.input}
             placeholder='Email'
             onChangeText={(text) => handleChange('email', text)}
-            placeholderTextColor='#999'
           />
-          <TextInput
+          <TextInputFilled
             value={form.password}
-            style={styles.input}
             secureTextEntry
             placeholder='Senha'
             onChangeText={(text) => handleChange('password', text)}
-            placeholderTextColor='#999'
           />
         </View>
         <RoundButton action={handleSubmit} text='Login' />
@@ -84,17 +80,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: '35%',
-  },
-  input: {
-    height: 50,
-    width: '100%',
-    marginBottom: 20,
-    padding: 10,
-    borderRadius: 8,
-    backgroundColor: '#fff',
-    color: '#000',
-    fontFamily: 'InterMedium',
-    fontSize: 16,
   },
 })
 
