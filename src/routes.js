@@ -9,6 +9,7 @@ import Music from './views/Music'
 import Login from './views/Login'
 import Admin from './views/Admin'
 import MusicRegister from './views/MusicRegister'
+import EditMusic from './views/EditMusic'
 
 const Stack = createStackNavigator()
 
@@ -22,6 +23,7 @@ const Routes = () => (
       <Stack.Screen name='Music' component={Music} />
       <Stack.Screen name='Admin' component={Admin} />
       <Stack.Screen name='MusicRegister' component={MusicRegister} />
+      <Stack.Screen name='EditMusic' component={EditMusic} />
 
     </Stack.Navigator>
   </NavigationContainer>

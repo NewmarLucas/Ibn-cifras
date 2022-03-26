@@ -37,7 +37,7 @@ const Admin = ({ navigation }) => {
             <ListItem
               key={item.id}
               action={() => {
-                navigation.navigate('Music', { musicName: item.music })
+                navigation.navigate('EditMusic', { musicName: item.music })
               }}
               title={item.music}
               subtitle={item.cantor}
