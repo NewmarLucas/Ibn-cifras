@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { StyleSheet, FlatList, View, Text } from 'react-native'
+import { StyleSheet, FlatList, View, Text, TextInput } from 'react-native'
 import { Header, ListItem, RoundButton } from '../components'
 
 const Admin = ({ navigation }) => {
+  const [filter, setFilter] = useState('')
+
   const listItems = [
     { id: '1', music: 'Teus Sonhos', cantor: 'Fernandinho' },
     { id: '2', music: 'Mil Graus', cantor: 'Renascer Praise' },
@@ -18,6 +20,14 @@ const Admin = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Header text='Admin' showBackButton />
+
+      <TextInput
+        value={filter}
+        style={styles.input}
+        placeholder='Pesquisar'
+        onChangeText={(text) => setFilter(text)}
+        placeholderTextColor='#BDBDBD'
+      />
 
       <Text style={styles.textLabel}>Músicas:</Text>
       <View style={styles.listContainer}>
@@ -58,12 +68,23 @@ const styles = StyleSheet.create({
   listContainer: {
     marginHorizontal: 16,
     width: '100%',
-    height: '60%',
+    height: '50%',
   },
   buttonContainer: {
     marginTop: 20,
     width: '90%',
     height: '10%',
+  },
+  input: {
+    height: 50,
+    width: '90%',
+    marginBottom: 20,
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: '#fff',
+    color: '#000',
+    fontFamily: 'InterMedium',
+    fontSize: 16,
   },
 })
 
