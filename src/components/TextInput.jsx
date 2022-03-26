@@ -8,7 +8,7 @@ export const TextInput = ({ value, placeholder, onChangeText }) => {
       style={styles.input}
       placeholder={placeholder}
       onChangeText={onChangeText}
-      placeholderTextColor='#ddd'
+      placeholderTextColor='#999'
     />
   )
 }
@@ -22,5 +22,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#fff',
+    fontFamily: 'InterMedium',
+    fontSize: 16,
   },
 })

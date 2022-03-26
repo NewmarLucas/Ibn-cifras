@@ -20,7 +20,7 @@ export const Form = ({ inputs }) => {
 
 const styles = StyleSheet.create({
   formContainer: {
-    paddingHorizontal: 25,
+    paddingHorizontal: 30,
     marginBottom: 25,
   },
 })

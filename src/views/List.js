@@ -7,6 +7,12 @@ const List = ({ route, navigation }) => {
   const [open, setOpen] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
+  const [form, setForm] = useState({
+    musicName: '',
+    cantor: '',
+    tom: '',
+  })
+
   const listItems = [
     { id: '1', music: 'Teus Sonhos', cantor: 'Fernandinho' },
     { id: '2', music: 'Mil Graus', cantor: 'Renascer Praise' },
@@ -14,12 +20,18 @@ const List = ({ route, navigation }) => {
     { id: '4', music: 'Pedra na Mão', cantor: 'Discopraise' },
   ]
 
-  const inputs = [
-    { placeholder: 'Nome da música', value: '', onChange: () => { } },
-    { placeholder: 'Cantor', value: '', onChange: () => { } },
-    { placeholder: 'Tom', value: '', onChange: () => { } },
-  ]
+  const handleChange = (name, text) => {
+    setForm(form => ({
+      ...form,
+      [name]: text
+    }))
+  }
 
+  const inputs = [
+    { placeholder: 'Nome da música', value: form.musicName, onChange: (text) => { handleChange('musicName', text) } },
+    { placeholder: 'Cantor', value: form.cantor, onChange: (text) => { handleChange('cantor', text) } },
+    { placeholder: 'Tom', value: form.tom, onChange: (text) => { handleChange('tom', text) } },
+  ]
 
   return (
     <View style={styles.container}>

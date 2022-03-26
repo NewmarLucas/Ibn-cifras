@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   button_cancel: {
     backgroundColor: 'transparent',
     paddingVertical: 5,
+    marginRight: 5,
     paddingHorizontal: 25,
   },
   buttons_container: {
