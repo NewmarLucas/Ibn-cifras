@@ -13,7 +13,7 @@ const List = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Header text={pageTitle} />
+      <Header text={pageTitle} showBackButton />
 
       <Text style={styles.textLabel}>Músicas:</Text>
       <View style={styles.listContainer}>
