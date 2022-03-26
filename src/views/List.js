@@ -5,6 +5,7 @@ import { Header, ListItem, RoundButton, Alert } from '../components'
 const List = ({ route, navigation }) => {
   const pageTitle = route.params?.culto
   const [open, setOpen] = useState(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   const listItems = [
     { id: '1', music: 'Teus Sonhos', cantor: 'Fernandinho' },
@@ -16,7 +17,8 @@ const List = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Header text={pageTitle} showBackButton />
-      {open && <Alert msg='Selecione uma música' onCancel={() => { }} onOk={() => { }} setOpen={setOpen} />}
+      {open && <Alert msg='Selecione uma música' buttonText='Adicionar' onCancel={() => { }} onOk={() => { }} setOpen={setOpen} />}
+      {openDeleteModal && <Alert msg='Deseja remover esta música da lista?' buttonText='Remover' onCancel={() => { }} onOk={() => { }} setOpen={setOpenDeleteModal} />}
 
       <Text style={styles.textLabel}>Músicas:</Text>
       <View style={styles.listContainer}>
@@ -25,7 +27,7 @@ const List = ({ route, navigation }) => {
           renderItem={({ item }) =>
             <ListItem
               key={item.id}
-              deleteAction={() => { alert('deletar') }}
+              deleteAction={() => { setOpenDeleteModal(true) }}
               action={() => { navigation.navigate('Music', { musicName: item.music }) }}
               title={item.music}
               subtitle={item.cantor}

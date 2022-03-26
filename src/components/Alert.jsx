@@ -2,7 +2,7 @@ import React from 'react'
 
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 
-export const Alert = ({ msg, onOk, onCancel, setOpen, form }) => {
+export const Alert = ({ msg, onOk, onCancel, setOpen, form, buttonText }) => {
   return (
     <View style={styles.container}>
       <View style={styles.modal}>
@@ -28,7 +28,7 @@ export const Alert = ({ msg, onOk, onCancel, setOpen, form }) => {
               return setOpen(false)
             }}
           >
-            <Text style={styles.button_text}>Adicionar</Text>
+            <Text style={styles.button_text}>{buttonText}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     color: '#fff',
+    maxWidth: '70%',
     fontFamily: 'InterSemiBold',
   },
   button_text: {
