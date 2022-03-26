@@ -1,12 +1,22 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, TextInput } from 'react-native'
-import { Header, RoundButton } from '../components'
+import { Header, RoundButton, Alert } from '../components'
 
 const Login = ({ navigation }) => {
+  const [showAlert, setShowAlert] = useState(false)
+  const [alertMessage, setAlertMessage] = useState('')
   const [form, setForm] = useState({
     email: '',
     password: '',
   })
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )
+  }
 
   const handleChange = (name, value) => {
     setForm((form) => ({
@@ -15,9 +25,27 @@ const Login = ({ navigation }) => {
     }))
   }
 
+  const handleSubmit = () => {
+    if (form.email === '' || form.password.length < 8) {
+      setShowAlert(true)
+      setAlertMessage('Insira informações válidas para fazer o login')
+      return
+    }
+    if (!validateEmail(form.email)) {
+      setShowAlert(true)
+      setAlertMessage('Insira um email válido')
+      return
+    }
+
+    navigation.navigate('List')
+  }
+
   return (
     <View style={styles.container}>
       <Header showBackButton text='Login' />
+      {showAlert && (
+        <Alert buttonText='Ok' msg={alertMessage} setOpen={setShowAlert} />
+      )}
 
       <View style={styles.content}>
         <View style={styles.inputContainer}>
@@ -37,7 +65,7 @@ const Login = ({ navigation }) => {
             placeholderTextColor='#999'
           />
         </View>
-        <RoundButton action={() => {}} text='Login' />
+        <RoundButton action={handleSubmit} text='Login' />
       </View>
     </View>
   )
@@ -58,7 +86,7 @@ const styles = StyleSheet.create({
     marginBottom: '35%',
   },
   input: {
-    height: 40,
+    height: 50,
     width: '100%',
     marginBottom: 20,
     padding: 10,
