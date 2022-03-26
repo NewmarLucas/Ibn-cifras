@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, FlatList, View } from 'react-native'
-import { Header, ListItem } from '../../components'
+import { Header, ListItem } from '../components'
 
 const Welcome = ({ navigation }) => {
   const listItems = [
@@ -17,7 +17,7 @@ const Welcome = ({ navigation }) => {
       <View style={styles.listContainer}>
         <FlatList
           data={listItems}
-          renderItem={({ item }) => <ListItem action={() => { navigation.navigate('List', { culto: item.label }) }} title={item.label} subtitle={item.subtitle} />}
+          renderItem={({ item }) => <ListItem key={item.value} action={() => { navigation.navigate('List', { culto: item.label }) }} title={item.label} subtitle={item.subtitle} />}
           keyExtractor={item => item.value}
         />
       </View>
