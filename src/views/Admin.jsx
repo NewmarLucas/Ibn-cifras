@@ -78,12 +78,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 20,
     width: '90%',
-    height: '10%',
+    height: 70,
   },
   input: {
     height: 50,
     width: '90%',
-    marginBottom: 20,
     padding: 10,
     borderRadius: 100,
     backgroundColor: '#fff',

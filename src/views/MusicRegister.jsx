@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { StyleSheet, Image, View, TouchableOpacity, Text } from 'react-native'
+import {
+  StyleSheet,
+  Image,
+  View,
+  TouchableOpacity,
+  Text,
+  ScrollView,
+} from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { Header, TextInputFilled, RoundButton } from '../components'
 import File from '../assets/pictures/file.png'
@@ -22,56 +29,47 @@ const MusicRegister = ({ navigation }) => {
     <View style={styles.container}>
       <Header text='Cadastro' showBackButton />
 
-      <View style={styles.inputContainer}>
-        <TextInputFilled
-          placeholder='Nome'
-          value={form.name}
-          onChangeText={(text) => {
-            handleChange('name', text)
-          }}
-        />
-        <View style={styles.col2}>
-          <View style={{ width: '65%' }}>
-            <TextInputFilled
-              placeholder='Cantor ou versão'
-              value={form.cantor}
-              onChangeText={(text) => {
-                handleChange('cantor', text)
-              }}
-            />
-          </View>
-          <View style={{ width: '30%' }}>
-            <TextInputFilled
-              placeholder='Tom'
-              value={form.tom}
-              onChangeText={(text) => {
-                handleChange('tom', text)
-              }}
-            />
+      <ScrollView style={styles.scroll}>
+        <View style={styles.inputContainer}>
+          <TextInputFilled
+            placeholder='Nome'
+            value={form.name}
+            onChangeText={(text) => {
+              handleChange('name', text)
+            }}
+          />
+          <View style={styles.col2}>
+            <View style={{ width: '65%' }}>
+              <TextInputFilled
+                placeholder='Cantor ou versão'
+                value={form.cantor}
+                onChangeText={(text) => {
+                  handleChange('cantor', text)
+                }}
+              />
+            </View>
+            <View style={{ width: '30%' }}>
+              <TextInputFilled
+                placeholder='Tom'
+                value={form.tom}
+                onChangeText={(text) => {
+                  handleChange('tom', text)
+                }}
+              />
+            </View>
           </View>
         </View>
-      </View>
 
-      <Image source={File} alt='Arquivo' style={styles.image} />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => {
-          onOk && onOk()
-          return setOpen(false)
-        }}
-      >
-        <Feather
-          name='paperclip'
-          style={{ marginRight: 10 }}
-          size={20}
-          color='#fff'
-        />
-        <Text style={styles.button_text}>Anexar</Text>
-      </TouchableOpacity>
+        <View style={{ alignItems: 'center' }}>
+          <Image source={File} alt='Arquivo' style={styles.image} />
+          <TouchableOpacity style={styles.button} onPress={() => {}}>
+            <Feather name='paperclip' size={20} color='#fff' />
+            <Text style={styles.button_text}>Anexar</Text>
+          </TouchableOpacity>
+        </View>
 
-      <View style={{ width: '90%' }}>
         <RoundButton text='Cadastrar' action={() => {}} />
-      </View>
+      </ScrollView>
     </View>
   )
 }
@@ -82,8 +80,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#383838',
   },
+  scroll: {
+    margin: 10,
+  },
   inputContainer: {
-    width: '90%',
+    width: '100%',
   },
   col2: {
     flexDirection: 'row',
@@ -91,15 +92,17 @@ const styles = StyleSheet.create({
   },
   image: {
     resizeMode: 'cover',
-    marginTop: 25,
+    marginTop: 20,
   },
   button_text: {
     color: '#fff',
     fontFamily: 'InterSemiBold',
     fontSize: 16,
+    marginLeft: 10,
   },
   button: {
-    marginVertical: 25,
+    marginTop: 25,
+    marginBottom: 40,
     backgroundColor: '#19A0CB',
     borderRadius: 8,
     paddingVertical: 8,
