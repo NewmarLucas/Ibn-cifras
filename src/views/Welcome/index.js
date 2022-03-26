@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, FlatList, View } from 'react-native'
 import { Header, ListItem } from '../../components'
+import Constants from 'expo-constants'
 
 const Welcome = ({ navigation }) => {
   const listItems = [
@@ -28,8 +29,8 @@ const Welcome = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: Constants.statusBarHeight,
     alignItems: 'center',
-    justifyContent: 'space-around',
     backgroundColor: '#383838'
   },
   listContainer: {

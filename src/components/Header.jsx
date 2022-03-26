@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-import Constants from 'expo-constants'
 
 export const Header = ({ text, showLogin = false }) => {
   return (
@@ -17,8 +16,6 @@ export const Header = ({ text, showLogin = false }) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: Constants.statusBarHeight,
     height: 115,
     width: '100%',
     alignItems: 'center',
