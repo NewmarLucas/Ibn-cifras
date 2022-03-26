@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, FlatList, View, Text } from 'react-native'
-import { Header, ListItem, RoundButton } from '../components'
+import { Header, ListItem, RoundButton, Alert } from '../components'
 
 const List = ({ route, navigation }) => {
   const pageTitle = route.params?.culto
+  const [open, setOpen] = useState(false)
+
   const listItems = [
     { id: '1', music: 'Teus Sonhos', cantor: 'Fernandinho' },
     { id: '2', music: 'Mil Graus', cantor: 'Renascer Praise' },
@@ -14,6 +16,7 @@ const List = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Header text={pageTitle} showBackButton />
+      {open && <Alert msg='Selecione uma música' onCancel={() => { }} onOk={() => { }} setOpen={setOpen} />}
 
       <Text style={styles.textLabel}>Músicas:</Text>
       <View style={styles.listContainer}>
@@ -32,7 +35,7 @@ const List = ({ route, navigation }) => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <RoundButton text='Adicionar Música' action={() => { console.log('oi') }} />
+        <RoundButton text='Adicionar Música' action={() => { setOpen(true) }} />
       </View>
     </View>
   )
