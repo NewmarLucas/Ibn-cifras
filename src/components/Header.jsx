@@ -4,11 +4,26 @@ import { Feather } from '@expo/vector-icons'
 import Constants from 'expo-constants'
 import { useNavigation } from '@react-navigation/native'
 
-export const Header = ({ text, showLogin = false, showBackButton = false }) => {
+export const Header = ({
+  text,
+  showLogin = false,
+  showBackButton = false,
+  showExit = false,
+}) => {
   const navigation = useNavigation()
 
   return (
     <View style={styles.container}>
+      {showExit && (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Welcome')
+          }}
+          style={styles.loginButton}
+        >
+          <Text style={styles.buttonText}>Sair</Text>
+        </TouchableOpacity>
+      )}
       {showLogin && (
         <TouchableOpacity
           onPress={() => {

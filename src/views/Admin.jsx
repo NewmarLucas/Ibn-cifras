@@ -19,7 +19,7 @@ const Admin = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Header text='Admin' showBackButton />
+      <Header text='Admin' showExit />
 
       <TextInput
         value={filter}
