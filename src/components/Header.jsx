@@ -10,7 +10,12 @@ export const Header = ({ text, showLogin = false, showBackButton = false }) => {
   return (
     <View style={styles.container}>
       {showLogin && (
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Login')
+          }}
+          style={styles.loginButton}
+        >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       )}
