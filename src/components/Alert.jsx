@@ -1,13 +1,14 @@
 import React from 'react'
 
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Form } from '../components'
 
 export const Alert = ({ msg, onOk, onCancel, setOpen, form, buttonText }) => {
   return (
     <View style={styles.container}>
       <View style={styles.modal}>
         {msg && <Text style={styles.text}>{msg}</Text>}
-        {form && <View>{form}</View>}
+        {form && <Form inputs={form} />}
 
         <View style={styles.buttons_container}>
           {onCancel && (
@@ -56,13 +57,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around',
+    maxHeight: '70%',
 
     backgroundColor: '#383838',
     borderRadius: 8,
   },
   text: {
     paddingHorizontal: 30,
-    marginBottom: 30,
+    marginBottom: 20,
     fontSize: 18,
     textAlign: 'center',
     color: '#fff',

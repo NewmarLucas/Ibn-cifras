@@ -14,10 +14,17 @@ const List = ({ route, navigation }) => {
     { id: '4', music: 'Pedra na Mão', cantor: 'Discopraise' },
   ]
 
+  const inputs = [
+    { placeholder: 'Nome da música', value: '', onChange: () => { } },
+    { placeholder: 'Cantor', value: '', onChange: () => { } },
+    { placeholder: 'Tom', value: '', onChange: () => { } },
+  ]
+
+
   return (
     <View style={styles.container}>
       <Header text={pageTitle} showBackButton />
-      {open && <Alert msg='Selecione uma música' buttonText='Adicionar' onCancel={() => { }} onOk={() => { }} setOpen={setOpen} />}
+      {open && <Alert msg='Selecione uma música' form={inputs} buttonText='Adicionar' onCancel={() => { }} onOk={() => { }} setOpen={setOpen} />}
       {openDeleteModal && <Alert msg='Deseja remover esta música da lista?' buttonText='Remover' onCancel={() => { }} onOk={() => { }} setOpen={setOpenDeleteModal} />}
 
       <Text style={styles.textLabel}>Músicas:</Text>
