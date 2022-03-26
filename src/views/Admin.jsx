@@ -47,7 +47,12 @@ const Admin = ({ navigation }) => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <RoundButton text='Cadastrar Música' action={() => {}} />
+        <RoundButton
+          text='Cadastrar Música'
+          action={() => {
+            navigation.navigate('MusicRegister')
+          }}
+        />
       </View>
     </View>
   )
