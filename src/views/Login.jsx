@@ -37,7 +37,7 @@ const Login = ({ navigation }) => {
       return
     }
 
-    navigation.navigate('List')
+    navigation.navigate('Admin')
   }
 
   return (
