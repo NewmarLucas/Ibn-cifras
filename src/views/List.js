@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, FlatList, View, Text } from 'react-native'
 import { Header, ListItem } from '../components'
 
-const List = ({ route }) => {
+const List = ({ route, navigation }) => {
   const pageTitle = route.params?.culto
   const listItems = [
     { id: '1', music: 'Teus Sonhos', cantor: 'Fernandinho' },
@@ -19,7 +19,15 @@ const List = ({ route }) => {
       <View style={styles.listContainer}>
         <FlatList
           data={listItems}
-          renderItem={({ item }) => <ListItem key={item.id} deleteAction={() => { alert('deletar') }} action={() => console.log(item.id)} title={item.music} subtitle={item.cantor} />}
+          renderItem={({ item }) =>
+            <ListItem
+              key={item.id}
+              deleteAction={() => { alert('deletar') }}
+              action={() => { navigation.navigate('Music', { musicName: item.music }) }}
+              title={item.music}
+              subtitle={item.cantor}
+            />
+          }
           keyExtractor={item => item.value}
         />
       </View>

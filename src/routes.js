@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Welcome from './views/Welcome'
 import List from './views/List'
+import Music from './views/Music'
 
 const Stack = createStackNavigator()
 
@@ -14,6 +15,7 @@ const Routes = () => (
       {/* Main Screens */}
       <Stack.Screen name='Welcome' component={Welcome} />
       <Stack.Screen name='List' component={List} />
+      <Stack.Screen name='Music' component={Music} />
 
     </Stack.Navigator>
   </NavigationContainer>
