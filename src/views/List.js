@@ -19,7 +19,7 @@ const List = ({ route }) => {
       <View style={styles.listContainer}>
         <FlatList
           data={listItems}
-          renderItem={({ item }) => <ListItem key={item.id} action={() => console.log(item.id)} title={item.music} subtitle={item.cantor} />}
+          renderItem={({ item }) => <ListItem key={item.id} deleteAction={() => { alert('deletar') }} action={() => console.log(item.id)} title={item.music} subtitle={item.cantor} />}
           keyExtractor={item => item.value}
         />
       </View>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#383838'
   },
   textLabel: {
-    marginTop: 30,
+    marginTop: 10,
     marginBottom: 20,
     fontFamily: 'InterLight',
     fontSize: 16,
