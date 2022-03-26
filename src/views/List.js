@@ -15,7 +15,7 @@ const List = ({ route }) => {
     <View style={styles.container}>
       <Header text={pageTitle} />
 
-      <Text>Músicas</Text>
+      <Text style={styles.textLabel}>Músicas:</Text>
       <View style={styles.listContainer}>
         <FlatList
           data={listItems}
@@ -30,14 +30,19 @@ const List = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: Constants.statusBarHeight,
     alignItems: 'center',
     backgroundColor: '#383838'
+  },
+  textLabel: {
+    marginTop: 30,
+    marginBottom: 20,
+    fontFamily: 'InterLight',
+    fontSize: 16,
+    color: '#fff'
   },
   listContainer: {
     marginHorizontal: 16,
     width: '100%',
-    marginTop: 50
   },
   itemCard: {
     padding: 20,
