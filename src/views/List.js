@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, FlatList, View, Text } from 'react-native'
-import { Header, ListItem } from '../components'
+import { Header, ListItem, RoundButton } from '../components'
 
 const List = ({ route, navigation }) => {
   const pageTitle = route.params?.culto
@@ -31,6 +31,9 @@ const List = ({ route, navigation }) => {
           keyExtractor={item => item.value}
         />
       </View>
+      <View style={styles.buttonContainer}>
+        <RoundButton text='Adicionar Música' action={() => { console.log('oi') }} />
+      </View>
     </View>
   )
 }
@@ -51,13 +54,12 @@ const styles = StyleSheet.create({
   listContainer: {
     marginHorizontal: 16,
     width: '100%',
+    height: '55%',
   },
-  itemCard: {
-    padding: 20,
-  },
-  itemText: {
-    color: '#fff',
-    fontSize: 32,
+  buttonContainer: {
+    marginTop: 20,
+    width: '90%',
+    height: '10%',
   },
 })
 
