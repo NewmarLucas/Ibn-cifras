@@ -1,21 +1,12 @@
 import React, { useState } from 'react'
-import {
-  StyleSheet,
-  Image,
-  View,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-} from 'react-native'
-import { Feather } from '@expo/vector-icons'
+import { StyleSheet, View, ScrollView, Alert } from 'react-native'
 import { Header, TextInputFilled, RoundButton } from '../components'
-import File from '../assets/pictures/file.png'
 
 const MusicRegister = ({ navigation }) => {
   const [form, setForm] = useState({
     name: '',
     cantor: '',
-    tom: '',
+    musicLink: '',
   })
 
   const handleChange = (name, value) => {
@@ -23,6 +14,37 @@ const MusicRegister = ({ navigation }) => {
       ...form,
       [name]: value,
     }))
+  }
+
+  const parseLink = (link) => {
+    const splitedLink = link?.split('/')
+    const lastIndex = splitedLink.pop()
+
+    if (lastIndex.includes('.html')) {
+      const newLink = [...splitedLink, lastIndex.split('.')[0], 'imprimir.html']
+      return newLink.join('/')
+    } else {
+      const lastCharacter = link.split('').pop()
+      return lastCharacter === '/'
+        ? link + 'imprimir.html'
+        : link + '/imprimir.html'
+    }
+  }
+
+  const handleSubmit = () => {
+    if (form.musicLink === '' || form.cantor === '' || form.name === '') {
+      return Alert.alert(
+        'Alerta',
+        'Você precisa preencher todos os campos para cadastrar uma nova música'
+      )
+    }
+
+    const data = {
+      ...form,
+      musicLink: parseLink(form.musicLink),
+    }
+
+    console.log(data)
   }
 
   return (
@@ -38,76 +60,48 @@ const MusicRegister = ({ navigation }) => {
               handleChange('name', text)
             }}
           />
-          <View style={styles.col2}>
-            <View style={{ width: '65%' }}>
-              <TextInputFilled
-                placeholder='Cantor ou versão'
-                value={form.cantor}
-                onChangeText={(text) => {
-                  handleChange('cantor', text)
-                }}
-              />
-            </View>
-            <View style={{ width: '30%' }}>
-              <TextInputFilled
-                placeholder='Tom'
-                value={form.tom}
-                onChangeText={(text) => {
-                  handleChange('tom', text)
-                }}
-              />
-            </View>
-          </View>
+          <TextInputFilled
+            placeholder='Cantor ou versão'
+            value={form.cantor}
+            onChangeText={(text) => {
+              handleChange('cantor', text)
+            }}
+          />
+          <TextInputFilled
+            placeholder='Link do Cifra Club'
+            value={form.musicLink}
+            onChangeText={(text) => {
+              handleChange('musicLink', text)
+            }}
+          />
         </View>
-
-        <View style={{ alignItems: 'center' }}>
-          <Image source={File} alt='Arquivo' style={styles.image} />
-          <TouchableOpacity style={styles.button} onPress={() => {}}>
-            <Feather name='paperclip' size={20} color='#fff' />
-            <Text style={styles.button_text}>Anexar</Text>
-          </TouchableOpacity>
-        </View>
-
-        <RoundButton text='Cadastrar' action={() => {}} />
       </ScrollView>
+
+      <View style={styles.buttonContainer}>
+        <RoundButton text='Cadastrar' action={handleSubmit} />
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
     backgroundColor: '#383838',
   },
   scroll: {
+    width: '90%',
     margin: 10,
   },
   inputContainer: {
-    width: '100%',
+    marginTop: 60,
+    height: '80%',
   },
-  col2: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  image: {
-    resizeMode: 'cover',
-    marginTop: 20,
-  },
-  button_text: {
-    color: '#fff',
-    fontFamily: 'InterSemiBold',
-    fontSize: 16,
-    marginLeft: 10,
-  },
-  button: {
-    marginTop: 25,
-    marginBottom: 40,
-    backgroundColor: '#19A0CB',
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 25,
-    flexDirection: 'row',
+  buttonContainer: {
+    width: '90%',
+    paddingVertical: 30,
   },
 })
 
