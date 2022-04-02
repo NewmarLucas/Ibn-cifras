@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#383838"
-      }
+      },
+      "package": "com.newmar_lucas.ibncifras"
     },
     "web": {
       "favicon": "./assets/favicon.png"
