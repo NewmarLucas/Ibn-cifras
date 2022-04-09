@@ -43,7 +43,7 @@ const Admin = ({ navigation }) => {
               subtitle={item.cantor}
             />
           )}
-          keyExtractor={(item) => item.value}
+          keyExtractor={(item) => item.id}
         />
       </View>
       <View style={styles.buttonContainer}>
