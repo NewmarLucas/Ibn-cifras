@@ -1,10 +1,10 @@
-import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import Constants from 'expo-constants'
-import { WebView } from 'react-native-webview'
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
+import { WebView } from 'react-native-webview';
 
 const Music = ({ route }) => {
-  // const { musicLink } = route.params
+  const { url } = route.params;
 
   return (
     <View style={styles.container}>
@@ -21,13 +21,13 @@ const Music = ({ route }) => {
           userAgent='Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
           style={styles.webViewContainertainer}
           source={{
-            uri: 'https://www.cifraclub.com.br/ministerio-morada/so-tu-s-santo/imprimir.html',
+            uri: url,
           }}
         />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-})
+});
 
-export default Music
+export default Music;

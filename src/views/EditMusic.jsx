@@ -64,7 +64,7 @@ const EditMusic = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Header text={form.name} showBackButton />
+      <Header text={music?.name ?? ''} showBackButton />
 
       <ScrollView style={styles.scroll}>
         <View style={styles.inputContainer}>

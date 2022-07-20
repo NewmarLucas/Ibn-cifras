@@ -46,7 +46,7 @@ const Admin = ({ navigation }) => {
                 navigation.navigate('EditMusic', { music: item });
               }}
               action={() => {
-                navigation.navigate('Music', { musicName: item.music });
+                navigation.navigate('Music', { url: item.url });
               }}
               title={item?.name}
               subtitle={item?.singer}
