@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, FlatList, View, Text, TextInput } from 'react-native'
-import { Header, ListItem, RoundButton } from '../components'
-import api from '../services/api'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, FlatList, View, Text, TextInput } from 'react-native';
+import { Header, ListItem, RoundButton } from '../components';
+import api from '../services/api';
 
 const Admin = ({ navigation }) => {
-  const [filter, setFilter] = useState('')
-  const [listItems, setListItems] = useState([])
+  const [filter, setFilter] = useState('');
+  const [listItems, setListItems] = useState([]);
 
   const getMusics = () => {
     try {
-      api.get(`/musics?singer=${filter}`).then((res) => {
-        setListItems(res.data)
-      })
+      api.get(`/musics?name=${filter}`).then((res) => {
+        setListItems(res.data);
+      });
     } catch (error) {
-      throw error
+      throw error;
     }
-  }
+  };
 
-  useEffect(getMusics, [filter])
+  useEffect(getMusics, [filter]);
 
   return (
     <View style={styles.container}>
@@ -38,8 +38,11 @@ const Admin = ({ navigation }) => {
           renderItem={({ item }) => (
             <ListItem
               key={item?._id}
+              editAction={() => {
+                navigation.navigate('EditMusic', { musicName: item?.name });
+              }}
               action={() => {
-                navigation.navigate('EditMusic', { musicName: item?.name })
+                navigation.navigate('Music', { musicName: item.music });
               }}
               title={item?.name}
               subtitle={item?.singer}
@@ -52,13 +55,13 @@ const Admin = ({ navigation }) => {
         <RoundButton
           text='Cadastrar Música'
           action={() => {
-            navigation.navigate('MusicRegister')
+            navigation.navigate('MusicRegister');
           }}
         />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -92,6 +95,6 @@ const styles = StyleSheet.create({
     fontFamily: 'InterMedium',
     fontSize: 16,
   },
-})
+});
 
-export default Admin
+export default Admin;
