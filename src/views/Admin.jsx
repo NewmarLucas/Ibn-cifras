@@ -43,7 +43,7 @@ const Admin = ({ navigation }) => {
             <ListItem
               key={item?._id}
               editAction={() => {
-                navigation.navigate('EditMusic', { musicName: item?.name });
+                navigation.navigate('EditMusic', { music: item });
               }}
               action={() => {
                 navigation.navigate('Music', { musicName: item.music });
