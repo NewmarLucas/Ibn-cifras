@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { ModalContext } from '../providers/modal';
-import { Header, ListItem, RoundButton, Alert } from '../components';
+import { Header, ListItem, RoundButton, Alert, Empty } from '../components';
 import api from '../services/api';
 import { getAuthToken } from '../helpers/utils';
 
@@ -82,6 +82,11 @@ const ListManager = ({ navigation }) => {
   };
 
   const handleRegisterList = async () => {
+    if (form.title === '' || form.subtitle === '') {
+      setShowModal({ msg: 'Preencha os campos para continuar!' });
+      return;
+    }
+
     api.post('/admin/list', form, await getAuthToken()).then((res) => {
       if (res.data === 'Added') {
         setForm(initialForm);
@@ -105,6 +110,7 @@ const ListManager = ({ navigation }) => {
           setOpen={setOpen}
         />
       )}
+      {list.length === 0 && <Empty />}
 
       <View style={styles.listContainer}>
         <FlatList

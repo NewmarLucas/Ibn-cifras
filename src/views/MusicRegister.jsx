@@ -45,7 +45,14 @@ const MusicRegister = () => {
           msg: 'Um erro incomum aconteceu! Por favor, tente novamente.',
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err?.response?.data === 'Music already exists') {
+          setShowModal({
+            msg: 'Música já foi cadastrada.',
+          });
+          setForm(initialState);
+          return;
+        }
         setShowModal({
           msg: 'Houve um erro ao cadastrar nova música! Por favor, tente novamente.',
         });

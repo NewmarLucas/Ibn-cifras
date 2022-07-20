@@ -36,8 +36,8 @@ const Welcome = ({ navigation }) => {
     <View style={styles.container}>
       <Header showLogin text='Cifras IBN' />
 
+      {listItems.length === 0 && <Empty />}
       <View style={styles.listContainer}>
-        {listItems.length === 0 && <Empty />}
         <FlatList
           data={listItems}
           renderItem={({ item }) => (
