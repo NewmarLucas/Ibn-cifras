@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View, Text, TextInput } from 'react-native';
 import { Header, ListItem, RoundButton } from '../components';
 import api from '../services/api';
+import { useIsFocused } from '@react-navigation/native';
 
 const Admin = ({ navigation }) => {
   const [filter, setFilter] = useState('');
   const [listItems, setListItems] = useState([]);
+  const isFocused = useIsFocused();
 
   const getMusics = () => {
     try {
@@ -17,7 +19,9 @@ const Admin = ({ navigation }) => {
     }
   };
 
-  useEffect(getMusics, [filter]);
+  useEffect(() => {
+    if (isFocused) getMusics();
+  }, [filter, isFocused]);
 
   return (
     <View style={styles.container}>

@@ -1,51 +1,56 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, ScrollView, Alert } from 'react-native'
-import { Header, TextInputFilled, RoundButton } from '../components'
+import React, { useState, useContext } from 'react';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import api from '../services/api';
+import { ModalContext } from '../providers/modal';
+import { Header, TextInputFilled, RoundButton } from '../components';
+import { parseLink, getAuthToken } from '../helpers/utils';
 
-const MusicRegister = ({ navigation }) => {
-  const [form, setForm] = useState({
-    name: '',
-    cantor: '',
-    musicLink: '',
-  })
+const initialState = {
+  name: '',
+  singer: '',
+  url: '',
+};
+const MusicRegister = () => {
+  const { setShowModal } = useContext(ModalContext);
+  const [form, setForm] = useState(initialState);
 
   const handleChange = (name, value) => {
     setForm((form) => ({
       ...form,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
-  const parseLink = (link) => {
-    const splitedLink = link?.split('/')
-    const lastIndex = splitedLink.pop()
-
-    if (lastIndex.includes('.html')) {
-      const newLink = [...splitedLink, lastIndex.split('.')[0], 'imprimir.html']
-      return newLink.join('/')
-    } else {
-      const lastCharacter = link.split('').pop()
-      return lastCharacter === '/'
-        ? link + 'imprimir.html'
-        : link + '/imprimir.html'
-    }
-  }
-
-  const handleSubmit = () => {
-    if (form.musicLink === '' || form.cantor === '' || form.name === '') {
-      return Alert.alert(
-        'Alerta',
-        'Você precisa preencher todos os campos para cadastrar uma nova música'
-      )
+  const handleSubmit = async () => {
+    if (form.url === '' || form.singer === '' || form.name === '') {
+      return setShowModal({
+        msg: 'Você precisa preencher todos os campos para cadastrar uma nova música',
+      });
     }
 
     const data = {
       ...form,
-      musicLink: parseLink(form.musicLink),
-    }
+      url: parseLink(form.url),
+    };
 
-    console.log(data)
-  }
+    api
+      .post('/admin/music', data, await getAuthToken())
+      .then((res) => {
+        if (res?.data === 'Created') {
+          setShowModal({ msg: 'Música cadastrada com sucesso' });
+          setForm(initialState);
+          return;
+        }
+        setShowModal({
+          msg: 'Um erro incomum aconteceu! Por favor, tente novamente.',
+        });
+      })
+      .catch(() => {
+        setShowModal({
+          msg: 'Houve um erro ao cadastrar nova música! Por favor, tente novamente.',
+        });
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -54,24 +59,24 @@ const MusicRegister = ({ navigation }) => {
       <ScrollView style={styles.scroll}>
         <View style={styles.inputContainer}>
           <TextInputFilled
-            placeholder='Nome'
+            placeholder='Nome da música'
             value={form.name}
             onChangeText={(text) => {
-              handleChange('name', text)
+              handleChange('name', text);
             }}
           />
           <TextInputFilled
             placeholder='Cantor ou versão'
-            value={form.cantor}
+            value={form.singer}
             onChangeText={(text) => {
-              handleChange('cantor', text)
+              handleChange('singer', text);
             }}
           />
           <TextInputFilled
             placeholder='Link do Cifra Club'
-            value={form.musicLink}
+            value={form.url}
             onChangeText={(text) => {
-              handleChange('musicLink', text)
+              handleChange('url', text);
             }}
           />
         </View>
@@ -81,8 +86,8 @@ const MusicRegister = ({ navigation }) => {
         <RoundButton text='Cadastrar' action={handleSubmit} />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -103,6 +108,6 @@ const styles = StyleSheet.create({
     width: '90%',
     paddingVertical: 30,
   },
-})
+});
 
-export default MusicRegister
+export default MusicRegister;
