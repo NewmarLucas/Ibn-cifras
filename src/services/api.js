@@ -1,5 +1,5 @@
 import axios from 'axios'
-import getEnvironment from '../helpers/env'
+import { getEnvironment } from '../helpers/env'
 
 const { API_URL } = getEnvironment()
 

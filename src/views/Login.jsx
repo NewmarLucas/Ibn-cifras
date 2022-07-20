@@ -1,51 +1,70 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, TextInput } from 'react-native'
-import { Header, RoundButton, Alert, TextInputFilled } from '../components'
+import React, { useState, useContext, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StyleSheet, View } from 'react-native';
+import { ModalContext } from '../providers/modal';
+import { Header, RoundButton, TextInputFilled } from '../components';
+import api from '../services/api';
 
 const Login = ({ navigation }) => {
-  const [showAlert, setShowAlert] = useState(false)
-  const [alertMessage, setAlertMessage] = useState('')
+  const { setShowModal } = useContext(ModalContext);
   const [form, setForm] = useState({
     email: '',
     password: '',
-  })
+  });
+
+  useEffect(() => {
+    AsyncStorage.getItem('authToken').then((token) => {
+      if (token) {
+        navigation.navigate('Admin');
+      }
+    });
+  }, []);
 
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-  }
+      );
+  };
 
   const handleChange = (name, value) => {
     setForm((form) => ({
       ...form,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = () => {
     if (form.email === '' || form.password.length < 8) {
-      setShowAlert(true)
-      setAlertMessage('Insira informações válidas para fazer o login')
-      return
-    }
-    if (!validateEmail(form.email)) {
-      setShowAlert(true)
-      setAlertMessage('Insira um email válido')
-      return
+      setShowModal({ msg: 'Insira informações válidas para fazer o login' });
+      return;
     }
 
-    navigation.navigate('Admin')
-  }
+    if (!validateEmail(form.email)) {
+      setShowModal({ msg: 'Insira um email válido' });
+      return;
+    }
+
+    api
+      .post('/admin', form)
+      .then((res) => {
+        if (res?.data?.token) {
+          AsyncStorage.setItem('authToken', `${res?.data?.token}`);
+          navigation.navigate('Admin');
+        }
+      })
+      .catch((err) => {
+        setShowModal({
+          msg: 'Os dados informados não são válidos! Tente novamente.',
+        });
+        throw err;
+      });
+  };
 
   return (
     <View style={styles.container}>
       <Header showBackButton text='Login' />
-      {showAlert && (
-        <Alert buttonText='Ok' msg={alertMessage} setOpen={setShowAlert} />
-      )}
 
       <View style={styles.content}>
         <View style={styles.inputContainer}>
@@ -64,8 +83,8 @@ const Login = ({ navigation }) => {
         <RoundButton action={handleSubmit} text='Login' />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -81,6 +100,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginBottom: '35%',
   },
-})
+});
 
-export default Login
+export default Login;

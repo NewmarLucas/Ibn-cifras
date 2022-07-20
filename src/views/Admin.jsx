@@ -1,21 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, FlatList, View, Text, TextInput } from 'react-native'
 import { Header, ListItem, RoundButton } from '../components'
+import api from '../services/api'
 
 const Admin = ({ navigation }) => {
   const [filter, setFilter] = useState('')
+  const [listItems, setListItems] = useState([])
 
-  const listItems = [
-    { id: '1', music: 'Teus Sonhos', cantor: 'Fernandinho' },
-    { id: '2', music: 'Mil Graus', cantor: 'Renascer Praise' },
-    { id: '3', music: 'Atos 2', cantor: 'Gabriela Rocha' },
-    { id: '4', music: 'Pedra na Mão', cantor: 'Discopraise' },
-    { id: '5', music: 'Pedra na Mão', cantor: 'Discopraise' },
-    { id: '6', music: 'Pedra na Mão', cantor: 'Discopraise' },
-    { id: '7', music: 'Pedra na Mão', cantor: 'Discopraise' },
-    { id: '8', music: 'Pedra na Mão', cantor: 'Discopraise' },
-    { id: '9', music: 'Pedra na Mão', cantor: 'Discopraise' },
-  ]
+  const getMusics = () => {
+    try {
+      api.get(`/musics?singer=${filter}`).then((res) => {
+        setListItems(res.data)
+      })
+    } catch (error) {
+      throw error
+    }
+  }
+
+  useEffect(getMusics, [filter])
 
   return (
     <View style={styles.container}>
@@ -35,12 +37,12 @@ const Admin = ({ navigation }) => {
           data={listItems}
           renderItem={({ item }) => (
             <ListItem
-              key={item.id}
+              key={item?._id}
               action={() => {
-                navigation.navigate('EditMusic', { musicName: item.music })
+                navigation.navigate('EditMusic', { musicName: item?.name })
               }}
-              title={item.music}
-              subtitle={item.cantor}
+              title={item?.name}
+              subtitle={item?.singer}
             />
           )}
           keyExtractor={(item) => item.id}

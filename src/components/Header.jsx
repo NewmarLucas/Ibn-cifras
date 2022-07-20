@@ -1,8 +1,9 @@
-import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
-import { Feather } from '@expo/vector-icons'
-import Constants from 'expo-constants'
-import { useNavigation } from '@react-navigation/native'
+import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import Constants from 'expo-constants';
+import { useNavigation } from '@react-navigation/native';
 
 export const Header = ({
   text,
@@ -10,24 +11,25 @@ export const Header = ({
   showBackButton = false,
   showExit = false,
 }) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+
+  const logOut = () => {
+    AsyncStorage.removeItem('authToken').then(() => {
+      navigation.navigate('Welcome');
+    });
+  };
 
   return (
     <View style={styles.container}>
       {showExit && (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Welcome')
-          }}
-          style={styles.loginButton}
-        >
+        <TouchableOpacity onPress={logOut} style={styles.loginButton}>
           <Text style={styles.buttonText}>Sair</Text>
         </TouchableOpacity>
       )}
       {showLogin && (
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Login')
+            navigation.navigate('Login');
           }}
           style={styles.loginButton}
         >
@@ -37,7 +39,7 @@ export const Header = ({
       {showBackButton && (
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack()
+            navigation.goBack();
           }}
           style={styles.backButton}
         >
@@ -46,8 +48,8 @@ export const Header = ({
       )}
       <Text style={styles.headerTitle}>{text}</Text>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -79,4 +81,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'InterMedium',
   },
-})
+});

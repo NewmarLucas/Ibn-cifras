@@ -5,6 +5,7 @@ import { useFonts } from 'expo-font'
 
 import SafeAreaView from 'react-native-safe-area-view'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import ModalProvider from './src/providers/modal'
 
 export default function App() {
   const [loaded] = useFonts({
@@ -21,7 +22,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }}>
-        <Routes />
+        <ModalProvider>
+          <Routes />
+        </ModalProvider>
       </SafeAreaView>
     </SafeAreaProvider>
   )
