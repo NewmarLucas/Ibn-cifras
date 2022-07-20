@@ -10,6 +10,7 @@ export const Header = ({
   showLogin = false,
   showBackButton = false,
   showExit = false,
+  showListButton = false,
 }) => {
   const navigation = useNavigation();
 
@@ -41,9 +42,19 @@ export const Header = ({
           onPress={() => {
             navigation.goBack();
           }}
-          style={styles.backButton}
+          style={styles.leftButton}
         >
           <Feather name='chevron-left' size={35} color='#fff' />
+        </TouchableOpacity>
+      )}
+      {showListButton && (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ListManager');
+          }}
+          style={styles.leftButton}
+        >
+          <Feather name='list' size={30} color='#fff' />
         </TouchableOpacity>
       )}
       <Text style={styles.headerTitle}>{text}</Text>
@@ -66,7 +77,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'InterSemiBold',
   },
-  backButton: {
+  leftButton: {
     position: 'absolute',
     top: 40,
     left: 25,

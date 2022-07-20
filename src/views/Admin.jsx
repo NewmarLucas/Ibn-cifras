@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View, Text, TextInput } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { Header, ListItem, RoundButton } from '../components';
 import api from '../services/api';
-import { useIsFocused } from '@react-navigation/native';
 
 const Admin = ({ navigation }) => {
   const [filter, setFilter] = useState('');
@@ -25,7 +25,7 @@ const Admin = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Header text='Admin' showExit />
+      <Header text='Admin' showExit showListButton />
 
       <TextInput
         value={filter}
@@ -52,7 +52,7 @@ const Admin = ({ navigation }) => {
               subtitle={item?.singer}
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
         />
       </View>
       <View style={styles.buttonContainer}>
