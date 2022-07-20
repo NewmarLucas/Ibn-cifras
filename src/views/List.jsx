@@ -1,121 +1,58 @@
-import React, { useState } from 'react'
-import { StyleSheet, FlatList, View, Text } from 'react-native'
-import { Header, ListItem, RoundButton, Alert } from '../components'
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, FlatList, View, Text } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import { Header, ListItem, Empty } from '../components';
+import api from '../services/api';
 
 const List = ({ route, navigation }) => {
-  const pageTitle = route.params?.culto
-  const [open, setOpen] = useState(false)
-  const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const { listItem } = route.params;
+  const isFocused = useIsFocused();
+  const [listItems, setListItems] = useState([]);
 
-  const [form, setForm] = useState({
-    musicName: '',
-    cantor: '',
-    tom: '',
-  })
+  const getMusicList = () => {
+    try {
+      api
+        .get(`/musics-from-list/${listItem?.label}`)
+        .then((res) => {
+          setListItems(res?.data);
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
 
-  const listItems = [
-    { id: '1', music: 'Teus Sonhos', cantor: 'Fernandinho' },
-    { id: '2', music: 'Mil Graus', cantor: 'Renascer Praise' },
-    { id: '3', music: 'Atos 2', cantor: 'Gabriela Rocha' },
-    { id: '4', music: 'Pedra na Mão', cantor: 'Discopraise' },
-  ]
-
-  const options = [
-    { label: 'A', value: 'A' },
-    { label: 'B', value: 'B' },
-    { label: 'C', value: 'C' },
-    { label: 'D', value: 'D' },
-    { label: 'E', value: 'E' },
-    { label: 'F', value: 'F' },
-  ]
-
-  const handleChange = (name, text) => {
-    setForm((form) => ({
-      ...form,
-      [name]: text,
-    }))
-  }
-
-  const inputs = [
-    {
-      placeholder: 'Nome da música',
-      value: form.musicName,
-      onChange: (text) => {
-        handleChange('musicName', text)
-      },
-    },
-    {
-      placeholder: 'Cantor',
-      value: form.cantor,
-      onChange: (text) => {
-        handleChange('cantor', text)
-      },
-    },
-    {
-      placeholder: 'Tom',
-      type: 'select',
-      options,
-      value: form.tom,
-      onChange: (text) => {
-        handleChange('tom', text)
-      },
-    },
-  ]
+  useEffect(() => {
+    if (isFocused && listItem) getMusicList();
+  }, [isFocused, listItem]);
 
   return (
     <View style={styles.container}>
-      <Header text={pageTitle} showBackButton />
-      {open && (
-        <Alert
-          msg='Selecione uma música'
-          form={inputs}
-          buttonText='Adicionar'
-          onCancel={() => {}}
-          onOk={() => {}}
-          setOpen={setOpen}
-        />
-      )}
-      {openDeleteModal && (
-        <Alert
-          msg='Deseja remover esta música da lista?'
-          buttonText='Remover'
-          onCancel={() => {}}
-          onOk={() => {}}
-          setOpen={setOpenDeleteModal}
-        />
-      )}
+      <Header text={listItem?.label ?? ''} showBackButton />
 
       <Text style={styles.textLabel}>Músicas:</Text>
       <View style={styles.listContainer}>
+        {listItems.length === 0 && <Empty />}
         <FlatList
           data={listItems}
           renderItem={({ item }) => (
             <ListItem
               key={item.id}
-              deleteAction={() => {
-                setOpenDeleteModal(true)
-              }}
               action={() => {
-                navigation.navigate('Music', { musicName: item.music })
+                navigation.navigate('Music', { url: item?.url });
               }}
-              title={item.music}
-              subtitle={item.cantor}
+              title={item.name}
+              subtitle={item.singer}
             />
           )}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <RoundButton
-          text='Adicionar Música'
-          action={() => {
-            setOpen(true)
-          }}
+          keyExtractor={(item) => item._id}
         />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -133,13 +70,8 @@ const styles = StyleSheet.create({
   listContainer: {
     marginHorizontal: 16,
     width: '100%',
-    height: '55%',
+    height: '65%',
   },
-  buttonContainer: {
-    marginTop: 20,
-    width: '90%',
-    height: '10%',
-  },
-})
+});
 
-export default List
+export default List;

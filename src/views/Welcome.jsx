@@ -1,40 +1,72 @@
-import React from 'react'
-import { StyleSheet, FlatList, View } from 'react-native'
-import { Header, ListItem } from '../components'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, FlatList, View } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import { Empty, Header, ListItem } from '../components';
+import api from '../services/api';
 
 const Welcome = ({ navigation }) => {
-  const listItems = [
-    { subtitle: 'Murilo', label: 'Culto de Terça', value: 'tuesday' },
-    { subtitle: 'Murilo', label: 'Culto de Sábado', value: 'saturday' },
-    { subtitle: 'Murilo', label: 'Culto de Domingo', value: 'sunday' },
-    { subtitle: 'Murilo', label: 'Outros Cultos', value: 'others' },
-  ]
+  const isFocused = useIsFocused();
+  const [listItems, setListItems] = useState([]);
+
+  const getMusicList = () => {
+    try {
+      api
+        .get(`/list`)
+        .then((res) => {
+          const data = res?.data?.map((item) => ({
+            subtitle: item.subtitle,
+            label: item.title,
+            value: item._id,
+          }));
+          setListItems(data);
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused) getMusicList();
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>
       <Header showLogin text='Cifras IBN' />
 
       <View style={styles.listContainer}>
+        {listItems.length === 0 && <Empty />}
         <FlatList
           data={listItems}
-          renderItem={({ item }) => <ListItem key={item.value} action={() => { navigation.navigate('List', { culto: item.label }) }} title={item.label} subtitle={item.subtitle} />}
-          keyExtractor={item => item.value}
+          renderItem={({ item }) => (
+            <ListItem
+              key={item.value}
+              action={() => {
+                navigation.navigate('List', { listItem: item });
+              }}
+              title={item.label}
+              subtitle={item.subtitle}
+            />
+          )}
+          keyExtractor={(item) => item.value}
         />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#383838'
+    backgroundColor: '#383838',
   },
   listContainer: {
     marginHorizontal: 16,
     width: '100%',
-    marginTop: 50
+    marginTop: 50,
   },
   itemCard: {
     padding: 20,
@@ -43,6 +75,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 32,
   },
-})
+});
 
-export default Welcome
+export default Welcome;
