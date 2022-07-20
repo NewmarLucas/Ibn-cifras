@@ -25,6 +25,7 @@ const ListManager = ({ navigation }) => {
         .get(`/list`)
         .then((res) => {
           const data = res?.data?.map((item) => ({
+            musicIdList: item.musicIdList,
             subtitle: item.subtitle,
             label: item.title,
             value: item._id,

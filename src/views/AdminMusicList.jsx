@@ -13,11 +13,11 @@ const List = ({ route, navigation }) => {
 
   const isFocused = useIsFocused();
   const [listItems, setListItems] = useState([]);
+  const [songs, setSongs] = useState([]);
 
   const [form, setForm] = useState({
-    musicName: '',
-    cantor: '',
-    tom: '',
+    musicId: '',
+    filter: '',
   });
 
   const getMusicList = () => {
@@ -35,6 +35,20 @@ const List = ({ route, navigation }) => {
     }
   };
 
+  const getSongs = () => {
+    api.get(`musics?name=${form.filter}`).then((res) => {
+      const data = res.data?.map((item) => ({
+        label: item?.name,
+        value: item?._id,
+      }));
+      setSongs([{ label: 'Selecione', value: null }, ...data] ?? []);
+    });
+  };
+
+  useEffect(() => {
+    getSongs();
+  }, [form.filter]);
+
   useEffect(() => {
     if (isFocused && list) getMusicList();
   }, [isFocused, list]);
@@ -51,6 +65,10 @@ const List = ({ route, navigation }) => {
           )
           .then((res) => {
             if (res.data === 'Removed') {
+              list?.musicIdList?.splice(
+                list?.musicIdList?.indexOf(data?._id),
+                1
+              );
               getMusicList();
             }
           });
@@ -58,14 +76,41 @@ const List = ({ route, navigation }) => {
     });
   };
 
-  const options = [
-    { label: 'A', value: 'A' },
-    { label: 'B', value: 'B' },
-    { label: 'C', value: 'C' },
-    { label: 'D', value: 'D' },
-    { label: 'E', value: 'E' },
-    { label: 'F', value: 'F' },
-  ];
+  const handleAddSong = async () => {
+    if (!form?.musicId || form?.musicId === '') {
+      setShowModal({ msg: 'Selecione uma música para continuar.' });
+      return;
+    }
+
+    if (list?.musicIdList.includes(form.musicId)) {
+      setShowModal({ msg: 'Esta música já está na lista.' });
+      setForm({
+        filter: '',
+        musicId: '',
+      });
+      return;
+    }
+
+    api
+      .post(
+        '/admin/addMusicToList',
+        {
+          title: list?.label,
+          musicIdList: [...list?.musicIdList, `${form.musicId}`],
+        },
+        await getAuthToken()
+      )
+      .then((res) => {
+        if (res.data === 'Added') {
+          getMusicList();
+          list?.musicIdList?.push(`${form.musicId}`);
+          setForm({
+            filter: '',
+            musicId: '',
+          });
+        }
+      });
+  };
 
   const handleChange = (name, text) => {
     setForm((form) => ({
@@ -76,26 +121,19 @@ const List = ({ route, navigation }) => {
 
   const inputs = [
     {
-      placeholder: 'Nome da música',
-      value: form.musicName,
+      placeholder: 'Procurar por nome',
+      value: form.filter,
       onChange: (text) => {
-        handleChange('musicName', text);
-      },
-    },
-    {
-      placeholder: 'Cantor',
-      value: form.cantor,
-      onChange: (text) => {
-        handleChange('cantor', text);
+        handleChange('filter', text);
       },
     },
     {
       placeholder: 'Tom',
       type: 'select',
-      options,
-      value: form.tom,
+      options: songs,
+      value: form.musicId,
       onChange: (text) => {
-        handleChange('tom', text);
+        handleChange('musicId', text);
       },
     },
   ];
@@ -109,7 +147,7 @@ const List = ({ route, navigation }) => {
           form={inputs}
           buttonText='Adicionar'
           onCancel={() => {}}
-          onOk={() => {}}
+          onOk={handleAddSong}
           setOpen={setOpen}
         />
       )}
