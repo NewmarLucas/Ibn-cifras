@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Welcome from './views/Welcome'
 import List from './views/List'
 import ListManager from './views/ListManager'
+import AdminMusicList from './views/AdminMusicList'
 import Music from './views/Music'
 import Login from './views/Login'
 import Admin from './views/Admin'
@@ -26,6 +27,7 @@ const Routes = () => (
       <Stack.Screen name='Admin' component={Admin} />
       <Stack.Screen name='MusicRegister' component={MusicRegister} />
       <Stack.Screen name='EditMusic' component={EditMusic} />
+      <Stack.Screen name='AdminMusicList' component={AdminMusicList} />
 
     </Stack.Navigator>
   </NavigationContainer>

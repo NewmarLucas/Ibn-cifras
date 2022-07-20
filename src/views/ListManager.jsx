@@ -77,7 +77,7 @@ const ListManager = ({ navigation }) => {
   };
 
   const editList = (list) => {
-    //TODO: integrar edição de lista
+    navigation.navigate('AdminMusicList', { list });
   };
 
   const handleRegisterList = async () => {

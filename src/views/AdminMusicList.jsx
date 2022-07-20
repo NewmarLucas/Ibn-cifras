@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, FlatList, View, Text } from 'react-native';
-import { Header, ListItem, RoundButton, Alert } from '../components';
+import { useIsFocused } from '@react-navigation/native';
+import { ModalContext } from '../providers/modal';
+import { Header, ListItem, RoundButton, Alert, Empty } from '../components';
+import api from '../services/api';
+import { getAuthToken } from '../helpers/utils';
 
 const List = ({ route, navigation }) => {
-  const pageTitle = route.params?.culto;
+  const { setShowModal } = useContext(ModalContext);
+  const { list } = route.params;
   const [open, setOpen] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+  const isFocused = useIsFocused();
+  const [listItems, setListItems] = useState([]);
 
   const [form, setForm] = useState({
     musicName: '',
@@ -13,12 +20,43 @@ const List = ({ route, navigation }) => {
     tom: '',
   });
 
-  const listItems = [
-    { id: '1', music: 'Teus Sonhos', cantor: 'Fernandinho' },
-    { id: '2', music: 'Mil Graus', cantor: 'Renascer Praise' },
-    { id: '3', music: 'Atos 2', cantor: 'Gabriela Rocha' },
-    { id: '4', music: 'Pedra na Mão', cantor: 'Discopraise' },
-  ];
+  const getMusicList = () => {
+    try {
+      api
+        .get(`/musics-from-list/${list?.label}`)
+        .then((res) => {
+          setListItems(res?.data);
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused && list) getMusicList();
+  }, [isFocused, list]);
+
+  const handleDelete = (data) => {
+    setShowModal({
+      msg: `Deseja excluir a música "${data?.name}" dessa lista?`,
+      onCancel: () => {},
+      onOk: async () => {
+        api
+          .delete(
+            `/admin/list/${data?._id}-${list?.label}`,
+            await getAuthToken()
+          )
+          .then((res) => {
+            if (res.data === 'Removed') {
+              getMusicList();
+            }
+          });
+      },
+    });
+  };
 
   const options = [
     { label: 'A', value: 'A' },
@@ -64,7 +102,7 @@ const List = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Header text={pageTitle} showBackButton />
+      <Header text={list?.label ?? ''} showBackButton />
       {open && (
         <Alert
           msg='Selecione uma música'
@@ -75,34 +113,26 @@ const List = ({ route, navigation }) => {
           setOpen={setOpen}
         />
       )}
-      {openDeleteModal && (
-        <alert
-          msg='Deseja remover esta música da lista?'
-          buttonText='Remover'
-          onCancel={() => {}}
-          onOk={() => {}}
-          setOpen={setOpenDeleteModal}
-        />
-      )}
 
       <Text style={styles.textLabel}>Músicas:</Text>
       <View style={styles.listContainer}>
+        {listItems.length === 0 && <Empty />}
         <FlatList
           data={listItems}
           renderItem={({ item }) => (
             <ListItem
               key={item.id}
-              deleteAction={() => {
-                setOpenDeleteModal(true);
-              }}
               action={() => {
-                navigation.navigate('Music', { musicName: item.music });
+                navigation.navigate('Music', { url: item?.url });
               }}
-              title={item.music}
-              subtitle={item.cantor}
+              deleteAction={() => {
+                handleDelete(item);
+              }}
+              title={item.name}
+              subtitle={item.singer}
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
         />
       </View>
       <View style={styles.buttonContainer}>
