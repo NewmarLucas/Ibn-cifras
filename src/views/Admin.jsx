@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View, Text, TextInput } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import { Header, ListItem, RoundButton } from '../components';
+import { Header, ListItem, RoundButton, Empty } from '../components';
 import api from '../services/api';
 
 const Admin = ({ navigation }) => {
@@ -37,6 +37,7 @@ const Admin = ({ navigation }) => {
 
       <Text style={styles.textLabel}>Músicas:</Text>
       <View style={styles.listContainer}>
+        {listItems?.length === 0 && <Empty />}
         <FlatList
           data={listItems}
           renderItem={({ item }) => (

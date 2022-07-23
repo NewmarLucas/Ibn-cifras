@@ -159,18 +159,18 @@ const List = ({ route, navigation }) => {
           data={listItems}
           renderItem={({ item }) => (
             <ListItem
-              key={item.id}
+              key={item?.id}
               action={() => {
                 navigation.navigate('Music', { url: item?.url });
               }}
               deleteAction={() => {
                 handleDelete(item);
               }}
-              title={item.name}
-              subtitle={item.singer}
+              title={item?.name}
+              subtitle={item?.singer}
             />
           )}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item) => item?._id}
         />
       </View>
       <View style={styles.buttonContainer}>
